@@ -45,35 +45,35 @@
         app:layout_constraintStart_toEndOf="@+id/rock" />
 
     <ImageView
-        android:id="@+id/playerChoice"
+        android:id="@+id/playerChoiceImage"
         android:layout_width="135dp"
         android:layout_height="124dp"
         android:layout_marginTop="296dp"
-        app:layout_constraintEnd_toStartOf="@+id/computerChoice"
+        app:layout_constraintEnd_toStartOf="@+id/computerChoiceImage"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/computerChoice"
+        android:id="@+id/computerChoiceImage"
         android:layout_width="135dp"
         android:layout_height="124dp"
         android:layout_marginTop="296dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/playerChoice"
+        app:layout_constraintStart_toEndOf="@+id/playerChoiceImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/winningChoice"
+        android:id="@+id/winningChoiceImage"
         android:layout_width="135dp"
         android:layout_height="124dp"
         android:layout_marginTop="155dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/playerChoice"
+        app:layout_constraintStart_toEndOf="@+id/playerChoiceImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
