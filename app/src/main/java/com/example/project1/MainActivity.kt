@@ -19,6 +19,10 @@ class MainActivity : AppCompatActivity() {
     var playerChoice: String = ""
     var computerChoice : String = ""
 
+    private var playerChoiceImage: ImageView? = null
+    private var computerChoiceImage: ImageView? = null
+    private var winningChoiceImage: ImageView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,8 +31,11 @@ class MainActivity : AppCompatActivity() {
         val paper : Button = findViewById(R.id.paper)
         val rock : Button = findViewById(R.id.rock)
         val scissors : Button = findViewById(R.id.scissors)
-        val playerChoiceImage : ImageView = findViewById<ImageView>(R.id.playerChoiceImage)
         val resetButton : Button = findViewById(R.id.resetGame)
+
+        val playerChoiceImage : ImageView = findViewById<ImageView>(R.id.playerChoiceImage)
+        val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
+        val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
 
 
         paper.setOnClickListener {
@@ -81,8 +88,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkComputerChoice(){
-        val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
         val computerChoiceOptions = listOf("rock", "paper", "scissors")
+        val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
         computerChoice = computerChoiceOptions.random()
         if (computerChoice == "rock"){
             computerChoiceImage.setImageResource(R.drawable.rock)
@@ -98,7 +105,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkWinner(){
         val winnerText: String
-        val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
         if(playerChoice == computerChoice){
             winnerText = "Tie!"
         } else if (playerChoice == "rock" && computerChoice == "scissors"){
