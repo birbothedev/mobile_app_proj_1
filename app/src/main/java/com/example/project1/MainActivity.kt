@@ -18,17 +18,17 @@ class MainActivity : AppCompatActivity() {
 
     var playerChoice: String = ""
     var computerChoice : String = ""
-    var winningChoice: String = ""
-    val paper : Button = findViewById(R.id.paper)
-    val rock : Button = findViewById(R.id.rock)
-    val scissors : Button = findViewById(R.id.scissors)
-    val playerChoiceImage : ImageView = findViewById<ImageView>(R.id.playerChoiceImage)
-    val winningChoiceImage : ImageView = findViewById<ImageView>(R.id.winningChoiceImage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        val paper : Button = findViewById(R.id.paper)
+        val rock : Button = findViewById(R.id.rock)
+        val scissors : Button = findViewById(R.id.scissors)
+        val playerChoiceImage : ImageView = findViewById<ImageView>(R.id.playerChoiceImage)
+        val resetButton : Button = findViewById(R.id.resetGame)
 
 
         paper.setOnClickListener {
@@ -54,14 +54,11 @@ class MainActivity : AppCompatActivity() {
             setInstructionText("Please choose either Rock, Paper, or Scissors")
         }
 
-        val computerChoiceOptions = listOf("rock", "paper", "scissors")
-        computerChoice = computerChoiceOptions.random()
-        if (computerChoice == "rock"){
-            checkComputerChoice("Rock")
-        } else if (computerChoice == "paper"){
-            checkComputerChoice("Paper")
-        } else if (computerChoice == "scissors"){
-            checkComputerChoice("Scissors")
+        resetButton.setOnClickListener {
+            resetGame(playerChoiceImage)
+            resetGame(winningChoiceImage)
+            resetGame(computerChoiceImage)
+            setInstructionText("Please choose either Rock, Paper, or Scissors")
         }
 
     }
@@ -70,12 +67,10 @@ class MainActivity : AppCompatActivity() {
         playerChoice = choice
         //add delay before making computer choice
         CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)  // Wait for 2 seconds
+            delay(2000)
             checkComputerChoice()
-        }
-        //add another delay before checking the winner
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)  // Wait for 2 seconds
+            //another delay before checking the winner
+            delay(2000)
             checkWinner()
         }
     }
@@ -85,26 +80,44 @@ class MainActivity : AppCompatActivity() {
             instructions.text = text
     }
 
-    private fun checkComputerChoice(choice: String){
+    private fun checkComputerChoice(){
         val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
-        computerChoiceImage.setImageResource(R.drawable.choice)
-        setInstructionText("Computer chose Scissors!")
+        val computerChoiceOptions = listOf("rock", "paper", "scissors")
+        computerChoice = computerChoiceOptions.random()
+        if (computerChoice == "rock"){
+            computerChoiceImage.setImageResource(R.drawable.rock)
+            setInstructionText("Computer chose Rock!")
+        } else if (computerChoice == "paper"){
+            computerChoiceImage.setImageResource(R.drawable.paper)
+            setInstructionText("Computer chose Paper!")
+        } else if (computerChoice == "scissors"){
+            computerChoiceImage.setImageResource(R.drawable.scissors)
+            setInstructionText("Computer chose Scissors!")
+        }
     }
 
     private fun checkWinner(){
         val winnerText: String
+        val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
         if(playerChoice == computerChoice){
             winnerText = "Tie!"
         } else if (playerChoice == "rock" && computerChoice == "scissors"){
             winnerText = "Player Wins!"
+            winningChoiceImage.setImageResource(R.drawable.rockwinner)
         } else if (playerChoice == "paper" && computerChoice == "rock"){
             winnerText = "Player Wins!"
+            winningChoiceImage.setImageResource(R.drawable.paperwinner)
         } else if (playerChoice == "scissors" && computerChoice == "paper"){
             winnerText = "Player Wins!"
+            winningChoiceImage.setImageResource(R.drawable.scissorswinner)
         } else {
             winnerText = "Computer Wins!"
         }
         setInstructionText(winnerText)
+    }
+
+    fun resetGame(imageView : ImageView){
+        imageView.setImageResource(0)
     }
 
 }
