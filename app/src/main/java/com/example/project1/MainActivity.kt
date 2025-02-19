@@ -19,57 +19,73 @@ class MainActivity : AppCompatActivity() {
     var playerChoice: String = ""
     var computerChoice : String = ""
 
-    private var playerChoiceImage: ImageView? = null
-    private var computerChoiceImage: ImageView? = null
-    private var winningChoiceImage: ImageView? = null
+    private var paper : Button? = null
+    private var rock : Button? = null
+    private var scissors : Button? = null
+    private var resetButton : Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val paper : Button = findViewById(R.id.paper)
-        val rock : Button = findViewById(R.id.rock)
-        val scissors : Button = findViewById(R.id.scissors)
-        val resetButton : Button = findViewById(R.id.resetGame)
+        paper = findViewById(R.id.paper)
+        rock = findViewById(R.id.rock)
+        scissors = findViewById(R.id.scissors)
+        resetButton = findViewById(R.id.resetGame)
 
-        val playerChoiceImage : ImageView = findViewById<ImageView>(R.id.playerChoiceImage)
+        //dont allow user to reset the game until its over
+        resetButton?.isEnabled = false
+
+        val playerChoiceImage : ImageView = findViewById(R.id.playerChoiceImage)
         val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
         val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
 
 
-        paper.setOnClickListener {
+        paper?.setOnClickListener {
             playerChoiceImage.setImageResource(R.drawable.paper)
             checkPlayerChoice("paper")
             setInstructionText("Player chose Paper")
+            disableAllButtons()
         }
 
-        rock.setOnClickListener {
+        rock?.setOnClickListener {
             playerChoiceImage.setImageResource(R.drawable.rock)
             checkPlayerChoice("rock")
             println("Rock Clicked")
             setInstructionText("Player chose Rock")
+            disableAllButtons()
         }
 
-        scissors.setOnClickListener {
+        scissors?.setOnClickListener {
             playerChoiceImage.setImageResource(R.drawable.scissors)
             checkPlayerChoice("scissors")
             println("Scissors Clicked")
             setInstructionText("Player chose Scissors")
+            disableAllButtons()
         }
         if(playerChoice == ""){
             setInstructionText("Please choose either Rock, Paper, or Scissors")
         }
 
-        resetButton.setOnClickListener {
+        resetButton?.setOnClickListener {
             resetGame(playerChoiceImage)
             resetGame(winningChoiceImage)
             resetGame(computerChoiceImage)
             setInstructionText("Please choose either Rock, Paper, or Scissors")
+            paper?.isEnabled = true
+            rock?.isEnabled = true
+            scissors?.isEnabled = true
         }
 
     }
 
+    private fun disableAllButtons() {
+        paper?.isEnabled = false
+        rock?.isEnabled = false
+        scissors?.isEnabled = false
+    }
+    
     private fun checkPlayerChoice(choice : String){
         playerChoice = choice
         //add delay before making computer choice
@@ -104,6 +120,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkWinner(){
+        val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
         val winnerText: String
         if(playerChoice == computerChoice){
             winnerText = "Tie!"
@@ -120,6 +137,7 @@ class MainActivity : AppCompatActivity() {
             winnerText = "Computer Wins!"
         }
         setInstructionText(winnerText)
+        resetButton?.isEnabled = true
     }
 
     fun resetGame(imageView : ImageView){
