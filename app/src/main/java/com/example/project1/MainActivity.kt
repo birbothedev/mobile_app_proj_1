@@ -76,16 +76,16 @@ class MainActivity : AppCompatActivity() {
             paper?.isEnabled = true
             rock?.isEnabled = true
             scissors?.isEnabled = true
+            resetButton?.isEnabled = false
         }
 
     }
-
     private fun disableAllButtons() {
         paper?.isEnabled = false
         rock?.isEnabled = false
         scissors?.isEnabled = false
     }
-    
+
     private fun checkPlayerChoice(choice : String){
         playerChoice = choice
         //add delay before making computer choice
@@ -121,26 +121,51 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkWinner(){
         val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
-        val winnerText: String
+        var winnerText = ""
+        var computerWins = false
+        var playerWins= false
         if(playerChoice == computerChoice){
             winnerText = "Tie!"
+            setWinningImages(winningChoiceImage, playerChoice)
         } else if (playerChoice == "rock" && computerChoice == "scissors"){
-            winnerText = "Player Wins!"
-            winningChoiceImage.setImageResource(R.drawable.rockwinner)
+            playerWins = true
         } else if (playerChoice == "paper" && computerChoice == "rock"){
-            winnerText = "Player Wins!"
-            winningChoiceImage.setImageResource(R.drawable.paperwinner)
+            playerWins = true
         } else if (playerChoice == "scissors" && computerChoice == "paper"){
-            winnerText = "Player Wins!"
-            winningChoiceImage.setImageResource(R.drawable.scissorswinner)
+            playerWins = true
         } else {
+            computerWins = true
+        }
+        if (playerWins){
+            winnerText = "Player Wins!"
+            setWinningImages(winningChoiceImage, playerChoice)
+        } else if (computerWins){
             winnerText = "Computer Wins!"
+            setWinningImages(winningChoiceImage, computerChoice)
         }
         setInstructionText(winnerText)
-        resetButton?.isEnabled = true
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            resetButton?.isEnabled = true
+        }
     }
 
-    fun resetGame(imageView : ImageView){
+    private fun setWinningImages(imageView : ImageView, imageName : String){
+        //create map to store all the images
+        val images = mapOf("rock" to R.drawable.rockwinner,
+            "paper" to R.drawable.paperwinner,
+            "scissors" to R.drawable.scissorswinner)
+        //match the imageName to the map
+        val imageResources = images[imageName]
+        if (imageResources != null) {
+            imageView.setImageResource(imageResources)
+        }
+
+
+    }
+
+    private fun resetGame(imageView : ImageView){
+        //remove all images
         imageView.setImageResource(0)
     }
 
