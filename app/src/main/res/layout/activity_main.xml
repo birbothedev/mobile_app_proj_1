@@ -8,23 +8,24 @@
     android:padding="16dp">
 
     <Button
-        android:id="@+id/scissors"
+        android:id="@+id/rock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="184dp"
-        android:text="Scissors"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="136dp"
+        android:text="Rock"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/paper"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/paper" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/paper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="184dp"
+        android:layout_marginBottom="136dp"
         android:text="Paper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/scissors"
@@ -32,17 +33,16 @@
         app:layout_constraintStart_toEndOf="@+id/rock" />
 
     <Button
-        android:id="@+id/rock"
+        android:id="@+id/scissors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="184dp"
-        android:text="Rock"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="136dp"
+        android:text="Scissors"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/paper"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/paper" />
 
     <Button
         android:id="@+id/resetGame"
@@ -58,19 +58,6 @@
         app:layout_constraintVertical_bias="0.748" />
 
     <ImageView
-        android:id="@+id/playerChoiceImage"
-        android:layout_width="135dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="296dp"
-        app:layout_constraintBottom_toTopOf="@+id/rock"
-        app:layout_constraintEnd_toStartOf="@+id/computerChoiceImage"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
         android:id="@+id/computerChoiceImage"
         android:layout_width="135dp"
         android:layout_height="124dp"
@@ -80,19 +67,33 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/playerChoiceImage"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.568"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/playerChoiceImage"
+        android:layout_width="135dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="296dp"
+        app:layout_constraintBottom_toTopOf="@+id/rock"
+        app:layout_constraintEnd_toStartOf="@+id/computerChoiceImage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.568"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/winningChoiceImage"
         android:layout_width="135dp"
         android:layout_height="124dp"
-        android:layout_marginTop="155dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/playerChoiceImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.368"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -122,5 +123,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameTitle" />
+
+    <TextView
+        android:id="@+id/playerScore"
+        android:layout_width="111dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="144dp"
+        android:gravity="center"
+        android:text="Player Score:"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/computerScore"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/computerScore"
+        android:layout_width="111dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="144dp"
+        android:gravity="center"
+        android:text="Computer Score:"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/playerScore"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
