@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private var playerChoice: String = ""
     private var computerChoice : String = ""
+    private var playerChoiceImage : ImageView? = null
+    private var computerChoiceImage : ImageView? = null
+    private var winningChoiceImage : ImageView? = null
 
     private var paper : Button? = null
     private var rock : Button? = null
@@ -42,37 +45,35 @@ class MainActivity : AppCompatActivity() {
         //don't allow user to reset the game until its over
         resetButton?.isEnabled = false
 
-        val playerChoiceImage : ImageView = findViewById(R.id.playerChoiceImage)
-        val computerChoiceImage : ImageView = findViewById(R.id.computerChoiceImage)
-        val winningChoiceImage : ImageView = findViewById(R.id.winningChoiceImage)
+        playerChoiceImage = findViewById(R.id.playerChoiceImage)
+        computerChoiceImage = findViewById(R.id.computerChoiceImage)
+        winningChoiceImage = findViewById(R.id.winningChoiceImage)
 
         //button events
         paper?.setOnClickListener {
-            playerChoiceImage.setImageResource(R.drawable.paper)
+            playerChoiceImage?.setImageResource(R.drawable.paper)
             checkPlayerChoice("paper")
             setInstructionText("Player chose Paper")
             disableAllButtons()
         }
         rock?.setOnClickListener {
-            playerChoiceImage.setImageResource(R.drawable.rock)
+            playerChoiceImage?.setImageResource(R.drawable.rock)
             checkPlayerChoice("rock")
-            println("Rock Clicked")
             setInstructionText("Player chose Rock")
             disableAllButtons()
         }
         scissors?.setOnClickListener {
-            playerChoiceImage.setImageResource(R.drawable.scissors)
+            playerChoiceImage?.setImageResource(R.drawable.scissors)
             checkPlayerChoice("scissors")
-            println("Scissors Clicked")
             setInstructionText("Player chose Scissors")
             disableAllButtons()
         }
         resetButton?.setOnClickListener {
-            resetGame(playerChoiceImage)
-            resetGame(winningChoiceImage)
-            resetGame(computerChoiceImage)
+            playerScore = 0
+            computerScore = 0
+            goToNextRound()
+            resetButton?.isEnabled = false
         }
-
 
         if(playerChoice == ""){
             setInstructionText("Please choose either Rock, Paper, or Scissors")
@@ -123,8 +124,6 @@ class MainActivity : AppCompatActivity() {
         val playerText : TextView = findViewById(R.id.playerScore)
         val computerText :  TextView = findViewById(R.id.computerScore)
         var winnerText = ""
-        playerWins = false
-        computerWins = false
 
         //game conditions
         if(playerChoice == computerChoice){
@@ -148,24 +147,32 @@ class MainActivity : AppCompatActivity() {
             setWinningImages(winningChoiceImage, computerChoice)
             computerScore++
         }
-        setInstructionText(winnerText)
+
+        //update text views
         updateScore(playerText, "Player Score: $playerScore")
         updateScore(computerText, "Computer Score: $computerScore")
+        setInstructionText(winnerText)
 
-        if(playerScore == 10){
-            winnerText = "Player wins the game!"
+        //end game and enable reset button if there is a winner, else go to next round
+        if(playerScore == 10 || computerScore == 10){
+            val finalWinningText: String = if(playerScore == 10){
+                "Player Wins the game!"
+            } else {
+                "Computer Wins the game!"
+            }
+            setInstructionText(finalWinningText)
+            //reset game
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2000)
                 resetButton?.isEnabled = true
             }
-        } else if(computerScore == 10){
-            winnerText = "Computer Wins the game!"
+        } else {
+            //go to next round after short delay
             CoroutineScope(Dispatchers.Main).launch {
-                delay(2000)
-                resetButton?.isEnabled = true
+                delay(3000)
+                goToNextRound()
             }
         }
-
     }
 
     private fun setWinningImages(imageView : ImageView, imageName : String){
@@ -178,24 +185,30 @@ class MainActivity : AppCompatActivity() {
         if (imageResources != null) {
             imageView.setImageResource(imageResources)
         }
-
-    }
-
-    private fun resetGame(imageView : ImageView){
-        //remove all images
-        imageView.setImageResource(0)
-        playerWins = false
-        computerWins = false
-
-        setInstructionText("Please choose either Rock, Paper, or Scissors")
-        paper?.isEnabled = true
-        rock?.isEnabled = true
-        scissors?.isEnabled = true
-        resetButton?.isEnabled = false
     }
 
     private fun updateScore(textView : TextView, score : String){
         textView.text = score
     }
 
+    private fun goToNextRound(){
+        setInstructionText("Please choose either Rock, Paper, or Scissors")
+        paper?.isEnabled = true
+        rock?.isEnabled = true
+        scissors?.isEnabled = true
+
+        playerWins = false
+        computerWins = false
+
+        //remove images
+        //im not exactly sure what this syntax means, it was recommended by the ide
+        playerChoiceImage?.let { resetImages(it) }
+        computerChoiceImage?.let { resetImages(it) }
+        winningChoiceImage?.let { resetImages(it) }
+    }
+
+    private fun resetImages(imageView: ImageView){
+        //remove all images
+        imageView.setImageResource(0)
+    }
 }
